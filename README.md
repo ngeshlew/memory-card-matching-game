@@ -1,145 +1,82 @@
 # Memory Card Matching Game
 
-A classic concentration/pairs game. Flip two cards at a time to find matching pairs. Clear the board with the fewest moves and fastest time.
+A 4x4 memory/concentration game built with plain HTML, CSS, and JavaScript. Flip two cards at a time to find matching pairs. Track your time, moves, and score.
 
 ## Live Demo
 
-- Add a link here once deployed (e.g., GitHub Pages or Vercel)
+- GitHub Pages: https://ngeshlew.github.io/memory-card-matching-game/
 
 ## Features
 
-- Multiple board sizes (4x4, 6x6, 8x8)
-- Card sets (emoji, icons, numbers); easily add your own
-- Timer, move counter, and best-score persistence (localStorage)
-- Optional hint/preview mode and shuffle/restart
-- Keyboard and screen reader friendly (ARIA, focus management)
-- Light/Dark/System theme toggle
-- Sound effects toggle (optional)
-
-## How to Play
-
-1. Click or select a card to flip it
-2. Flip a second card; if they match, they remain face-up
-3. If not a match, both flip back after a short delay
-4. Repeat until all pairs are found
+- 4x4 grid of cards that can be flipped
+- Each card hides an emoji icon until flipped
+- Players flip two cards per move to find matches
+- Matching pairs remain face-up; non-matches flip back
+- Game ends when all matches are found
+- Timer and move counter to track performance
+- Simple scoring: higher score for fewer moves and faster time
+- Best score/time/moves persisted to localStorage
+- Keyboard and screen reader friendly
 
 ## Tech Stack
 
-- HTML, CSS, and JavaScript
-- No framework required; can be enhanced with a bundler (e.g., Vite) if desired
+- HTML, CSS, JavaScript (no frameworks)
+- Static site; deploys to GitHub Pages via Actions
 
-## Project Structure (suggested)
+## Project Structure
 
 ```text
 .
-├─ index.html
-├─ src/
-│  ├─ scripts/
-│  │  ├─ game.(js|ts)        # game loop, matching logic
-│  │  ├─ state.(js|ts)       # game state, timer, moves, persistence
-│  │  └─ ui.(js|ts)          # DOM rendering and events
-│  ├─ styles/
-│  │  └─ main.css            # layout, themes, animations
-│  ├─ assets/
-│  │  └─ icons/              # card faces (SVG/PNG) or emoji mapping
-│  └─ config.(js|ts)         # configurable options (board size, set, etc.)
-├─ tests/
-│  └─ game.spec.(js|ts)      # unit tests (optional)
-├─ public/                   # static assets (optional)
-├─ package.json              # only if using Node tooling
+├─ index.html                # markup and UI containers
+├─ styles/
+│  └─ main.css               # layout, theme, card animations
+├─ scripts/
+│  └─ game.js                # game logic, timer, moves, scoring, persistence
+├─ .github/
+│  └─ workflows/
+│     └─ deploy.yml          # GitHub Pages deployment workflow
+├─ LICENSE                   # MIT License
 └─ README.md
 ```
 
-## Getting Started
+## How to Play
 
-### Prerequisites
+1. Click or focus+Enter/Space on a card to flip it
+2. Flip a second card; if they match, both stay face-up
+3. If they do not match, both flip back after a short delay
+4. Repeat until all pairs are found
 
-- Any modern browser
-- Optional (for dev tooling): Node.js 18+ and npm/pnpm/yarn
+## Scoring
 
-### Run Locally (no tooling)
+- Moves increment when the second card of a pair is flipped
+- Score updates every second after the first flip
+- Formula: `score = floor(10000 / (elapsedSeconds * moves))`, minimum 0
 
-- Open `index.html` directly in your browser, or serve the folder via a simple static server, for example:
+## Run Locally
+
+- Easiest: open `index.html` directly in your browser, or serve the folder:
 
 ```bash
 # Python
 python3 -m http.server 5173
-# or Node static server
+# Node (temporary static server)
 npx serve .
 ```
 
-Then open `http://localhost:5173`.
-
-### Run Locally (with Node tooling)
-
-```bash
-# install dependencies (if package.json is present)
-npm install
-
-# start a dev server (if using a bundler like Vite)
-npm run dev
-
-# build for production
-npm run build
-
-# preview production build
-npm run preview
-```
-
-## Configuration
-
-Centralize game options in `src/config.(js|ts)`:
-
-```ts
-export const gameConfig = {
-	boardSize: 4,              // 4, 6, or 8
-	cardSet: "emoji",          // "emoji" | "icons" | "numbers" | custom
-	shuffleSeed: null,         // number | null for random shuffles
-	allowHints: true,          // enable hint/preview
-	showTimer: true,
-	soundsEnabled: true,
-	theme: "system"            // "light" | "dark" | "system"
-};
-```
+Then visit `http://localhost:5173`.
 
 ## Accessibility
 
-- All interactive elements are reachable via keyboard (Tab/Shift+Tab)
-- ARIA roles/states (e.g., `aria-pressed`, `aria-live`) for announcements
-- Focus is managed when cards flip and when the game is won
-- Color contrast meets WCAG AA; color-blind friendly palette options
+- Buttons for cards, reachable via keyboard
+- Focus styles and `aria-live` updates
+- Persistent best stats (score, time, moves) shown after winning
 
-## Testing (optional)
+## Deployment (GitHub Pages)
 
-If tests are included:
-
-```bash
-npm test
-```
-
-## Deployment
-
-- Static hosting works out-of-the-box (GitHub Pages, Netlify, Vercel)
-- GitHub Pages: enable Pages (Settings → Pages) for the `main` branch or `docs/` folder
-- If using a bundler, deploy the `dist/` output after `npm run build`
-
-## Contributing
-
-- Fork the repo and create a feature branch
-- Add/adjust tests where appropriate
-- Run linting and formatting before submitting a PR
-
-```bash
-npm run lint
-npm run format
-```
-
-## Roadmap
-
-- Additional themes and card sets
-- Daily challenge mode (seeded puzzles)
-- Multiplayer/versus mode
+- Automatic on every push to `main` via `.github/workflows/deploy.yml`
+- The workflow uploads the repository as a Pages artifact and deploys it
+- Manage deployments and logs under Actions → Deploy static site to Pages
 
 ## License
 
-MIT. Add a `LICENSE` file to confirm.
+MIT — see `LICENSE`.
